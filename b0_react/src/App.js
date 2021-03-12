@@ -9,11 +9,11 @@ import Authorization from './pages/authorization/authorization';
 import Profile from './pages/profile/profile';
 import TestPage from './pages/testpage/testpage';
 
-const App = (props) => (
+const App = () => (
    <BrowserRouter>
       <Switch>
          <Route exact path='/' component={HomePage} />
-         <Route exact path='/traildetail/:id' component={TrailDetail} />
+         <Route exact path='/traildetail/:id' component={TestPage} />
          <Route exact path='/auth' component={Authorization} />
          <Route exact path='/profile' component={Profile} />
          <Route exact path='/test' component={TestPage} />

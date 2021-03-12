@@ -1,5 +1,6 @@
 import React, { Component, useState, useRef } from 'react';
-import { ApolloConsumer } from 'react-apollo';
+import { ApolloConsumer } from '@apollo/client';
+// import { ApolloConsumer } from 'react-apollo';
 import { gql } from 'apollo-boost';
 
 import searchIcon from '../../images/searchIcon.png';

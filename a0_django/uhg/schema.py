@@ -123,7 +123,7 @@ class Query(graphene.ObjectType):
    def resolve_hiker_most_recent_hike_on_trail(self, info, trailID, hikerID=None):
       trail = Trail.objects.get(id=trailID)
       if hikerID:
-         hiker = Hike.objects.get(id=hikerID)
+         hiker = Hiker.objects.get(id=hikerID)
       else:
          user = info.context.user 
          if user.is_anonymous:

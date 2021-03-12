@@ -1,60 +1,51 @@
 import React, { useState } from 'react';
-import { Mutation } from 'react-apollo';
-import { gql } from 'apollo-boost';
+import { gql, useQuery } from '@apollo/client';
 
-import './checkInOut.css';
+import CheckIn from '../../components/checkIn/checkIn'
+import CheckOut from '../../components/checkOut/checkOut'
 
-const CheckInOut = (props) => {
-   const { 
-      trailID, checkInEnabled, checkOutEnabled, checkInClass, checkOutClass, checkStatusText1, checkStatusText2, 
-      details, openStatus, checkInHandler, checkOutHandler, refetch
-   } = props;
+import '../../pages/traildetail/traildetail.css'
 
-   // const checkInHandler = async (checkIn) => {
-   //    if (checkInEnabled) {
-   //       const res = await checkIn();
-   //       console.log(res);
-   //    }
-   // } 
+const CheckInOut = ({ trailID }) => {
+   console.log({trailID:trailID})
+   const [checkInEnabled, setCheckInEnabled] = useState(!!localStorage.getItem('authToken') ? true : false)
+   const [checkOutEnabled, setCheckOutEnabled] = useState(!!localStorage.getItem('authToken') ? true : false)
+   const [checkStatusText1, setCheckStatusText1] = useState("")
+   const [checkStatusText2, setCheckStatusText2] = useState("")
 
-   // const checkOutHandler = async (checkOut) => {
-   //    if (checkOutEnabled) {
-   //       const res = await checkOut();
-   //       console.log(res);
-   //    }
-   // }
+   const { loading, error, data, refetch } = useQuery(
+      MOST_RECENT_HIKE_QUERY,
+      {variables: {trailID: trailID}}
+   )
+
+   if (loading) return <div>Loading ...</div>
+   if (error) {console.log(error); return <div>Error</div>}
+   if (!data) return <div>Not Found</div>
+
+   if(!!localStorage.getItem('authToken')) {
+      if(data.hikerMostRecentHikeOnTrail.length > 0) {
+         if(!data.hikerMostRecentHikeOnTrail[0].checkOutDate) {
+            setCheckInEnabled(false)
+            setCheckStatusText1("Checked In:")
+            setCheckStatusText2(data.hikerMostRecentHikeOnTrail[0].date)
+         }
+         else {
+            setCheckOutEnabled(false);
+         }
+      }
+      else {
+         setCheckOutEnabled(false);
+      }
+   }
 
    return (
-      <div className="topDetailsContainer">
-         <div className="namePropBox">
-            <div className="nmPropLn1">{details.name}</div>
-            <div className="nmPropLn2">{details.prop}</div>
-         </div>
-         <div className="labelsBox">
-            <div className="labelItem">Status:</div>
-            <div className="labelItem">Fee:</div>
-         </div>
-         <div className="openFeeBox">
-            <div className={openStatus}>{details.isOpen ? 'OPEN' : 'CLOSED'}</div>
-            <div className="openFeeItem">{details.fee===0 ? 'FREE' : `$${details.fee.toFixed(2)}`}</div>
-         </div>
-         <div className="smallSpace"></div>
-         <Mutation mutation={CHECK_IN_MUTATION} variables={{trailID: trailID}}>
-            {(checkIn, { loading, error }) => {
-               if (error) return <div>Error</div>
-               return (
-                  <div className={checkInClass} onClick={() => checkInHandler(checkIn, refetch)}>CHECK IN</div>
-               )
-            }}
-         </Mutation>
-         <Mutation mutation={CHECK_OUT_MUTATION} variables={{trailID: trailID}}>
-            {(checkOut, { loading, error }) => {
-               if (error) return <div>CheckOutError</div>
-               return (
-                  <div className={checkOutClass} onClick={() => checkOutHandler(checkOut, refetch)}>CHECK OUT</div>
-               )
-            }}
-         </Mutation>
+      <div>
+         <CheckIn checkInEnabled={checkInEnabled} setCheckInEnabled={setCheckInEnabled} setCheckOutEnabled={setCheckOutEnabled} 
+            refetch={refetch} 
+         />
+         <CheckOut checkOutEnabled={checkOutEnabled} setCheckOutEnabled={setCheckOutEnabled} setCheckInEnabled={setCheckInEnabled} 
+            refetch={refetch} 
+         />
          <div className="topDetailsSpace"><div className="checkInOutStatus">
             <div>{checkStatusText1}</div><div>{checkStatusText2}</div>
          </div></div>
@@ -62,24 +53,13 @@ const CheckInOut = (props) => {
    )
 }
 
-// const CHECK_IN_MUTATION = gql`
-//    mutation ($trailID: Int!) {
-//       checkIn(trailID: $trailID) {
-//          hike {
-//             id
-//          }
-//       }
-//    }
-// `
-
-// const CHECK_OUT_MUTATION = gql`
-//    mutation ($trailID: Int!) {
-//       checkOut(trailID: $trailID) {
-//          hike {
-//             id
-//          }
-//       }
-//    }
-// `
+const MOST_RECENT_HIKE_QUERY = gql`
+   query ($trailID: Int!) {
+      hikerMostRecentHikeOnTrail(trailID: $trailID, hikerID:13) {
+         date
+         checkOutDate
+      }
+   }
+`
 
 export default CheckInOut;

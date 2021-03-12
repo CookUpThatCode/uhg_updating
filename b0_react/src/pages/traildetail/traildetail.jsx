@@ -6,6 +6,8 @@ import { gql } from 'apollo-boost';
 import Header from '../../components/header/header';
 import SearchTrails from '../../components/searchTrails/searchTrails';
 import TrailSearchResultsList from '../../components/trailSearchResultsList/trailSearchResultsList';
+import CheckIn from '../../components/checkIn/checkIn'
+import CheckOut from '../../components/checkOut/checkOut'
 // import CheckInOut from '../../components/checkInOut/checkInOut';
 
 import './traildetail.css';
@@ -14,8 +16,6 @@ const TrailDetail = (props) => {
    const [queryResults, setQueryResults] = useState(null);
    const [searchResults, setSearchResults] = useState([])
    const [resultIdx, setResultIdx] = useState(0);
-   // const [checkInClass, setCheckInClass] = useState(!!localStorage.getItem('authToken') ? "checkInOutBox chIn" : "checkInOutBox gray")
-   // const [checkOutClass, setCheckOutClass] = useState(!!localStorage.getItem('authToken') ? "checkInOutBox chOut" : "checkInOutBox gray")
    const [checkInEnabled, setCheckInEnabled] = useState(!!localStorage.getItem('authToken') ? true : false)
    const [checkOutEnabled, setCheckOutEnabled] = useState(!!localStorage.getItem('authToken') ? true : false)
    const [checkStatusText1, setCheckStatusText1] = useState("")
@@ -35,22 +35,6 @@ const TrailDetail = (props) => {
 
    let imageUrl = 'http://localhost:8000/media/';
 
-   // let checkInClass = "checkInOutBox chIn";
-   // let checkOutClass = "checkInOutBox chOut";
-   // let checkInEnabled = true;
-   // let checkOutEnabled = true;
-
-   // if(!localStorage.getItem('authToken')) {
-   //    setCheckInClass("checkInOutBox gray")
-   //    setCheckOutClass("checkInOutBox gray")
-   //    setCheckInEnabled(false)
-   //    setCheckOutEnabled(false)
-   //    // checkInClass = "checkInOutBox gray";
-   //    // checkOutClass = "checkInOutBox gray";
-   //    // checkInEnabled = false;
-   //    // checkOutEnabled = false;
-   // }
-
    const checkInHandler = async (checkIn) => {
       if (checkInEnabled) {
          const res = await checkIn();
@@ -60,7 +44,7 @@ const TrailDetail = (props) => {
          setCheckStatusText1("Checked In:")
          setCheckStatusText2(res.data.checkIn.date)
          console.log(res.data.checkIn.date)
-      }
+      } 
    } 
 
    const checkOutHandler = async (checkOut) => {
@@ -74,65 +58,21 @@ const TrailDetail = (props) => {
       }
    }
 
-   // const updateCheckInButtons = (data) => {
-   //    if(!!localStorage.getItem('authToken')) {
-   //       if(data.hikerMostRecentHikeOnTrail.length > 0) {
-   //          if(!data.hikerMostRecentHikeOnTrail[0].checkOutDate) {
-   //             // setCheckInClass("checkInOutBox gray")
-   //             setCheckInEnabled(false)
-   //             // checkInClass = "checkInOutBox gray";
-   //             // checkInEnabled = false;
-   //             setCheckStatusText1("Checked In:")
-   //             setCheckStatusText2(data.hikerMostRecentHikeOnTrail[0].date)
-   //             // checkStatusText1 = "Checked In:"
-   //             // checkStatusText2 = data.hikerMostRecentHikeOnTrail[0].date;
-   //          }
-   //          else {
-   //             setCheckOutEnabled(false);
-   //          }
-   //       }
-   //       else {
-   //          setCheckOutEnabled(false);
-   //       }
-   //    }
-   //    // if (checkInEnabled) {
-   //    //    setCheckOutEnabled(false)
-   //    //    // setCheckOutClass("checkInOutBox gray")
-   //    //    // checkOutEnabled = false;
-   //    //    // checkOutClass = "checkInOutBox gray";
-   //    // }
-   // }
-
+   
    return (
       <div className="trailDetailPg">
          <Header currentPg="home" />
-         {/* {!queryResults 
-         ?
-         :
-         } */}
          <Query query={TRAIL_DETAIL_QUERY} variables={{trailID:props.match.params.id}}>
             {({data, loading, error}) => {
                if (loading) return <div></div>
                if (error) return <div>Error</div>
 
-               // this.refetch = refetch;
-
-               // let checkStatusText1 = "";
-               // let checkStatusText2 = "";
-
-               // updateCheckInButtons(data)
-
                if(!!localStorage.getItem('authToken')) {
                   if(data.hikerMostRecentHikeOnTrail.length > 0) {
                      if(!data.hikerMostRecentHikeOnTrail[0].checkOutDate) {
-                        // setCheckInClass("checkInOutBox gray")
                         setCheckInEnabled(false)
-                        // checkInClass = "checkInOutBox gray";
-                        // checkInEnabled = false;
                         setCheckStatusText1("Checked In:")
                         setCheckStatusText2(data.hikerMostRecentHikeOnTrail[0].date)
-                        // checkStatusText1 = "Checked In:"
-                        // checkStatusText2 = data.hikerMostRecentHikeOnTrail[0].date;
                      }
                      else {
                         setCheckOutEnabled(false);
@@ -143,31 +83,6 @@ const TrailDetail = (props) => {
                   }
                }
 
-               // console.log(checkInClass)
-               // console.log(checkOutClass)
-               // console.log(checkInEnabled)
-               // console.log(checkOutEnabled)
-
-               // if(!!localStorage.getItem('authToken')) {
-               //    if(data.hikerMostRecentHikeOnTrail.length > 0) {
-               //       if(!data.hikerMostRecentHikeOnTrail[0].checkOutDate) {
-               //          setCheckInClass("checkInOutBox gray")
-               //          setCheckInEnabled(false)
-               //          // checkInClass = "checkInOutBox gray";
-               //          // checkInEnabled = false;
-               //          setCheckStatusText1("Checked In:")
-               //          setCheckStatusText2(data.hikerMostRecentHikeOnTrail[0].date)
-               //          // checkStatusText1 = "Checked In:"
-               //          // checkStatusText2 = data.hikerMostRecentHikeOnTrail[0].date;
-               //       }
-               //    }
-               // }
-               // if (checkInEnabled) {
-               //    setCheckOutEnabled(false)
-               //    setCheckOutClass("checkInOutBox gray")
-               //    // checkOutEnabled = false;
-               //    // checkOutClass = "checkInOutBox gray";
-               // }
 
                imageUrl += data.trailDetails[0].image;
                console.log(imageUrl)
@@ -208,20 +123,6 @@ const TrailDetail = (props) => {
 
                return (
                   <div>
-                     {/* <CheckInOut 
-                        trailID={data.trailDetails[0].id} 
-                        checkInEnabled={checkInEnabled} 
-                        checkOutEnabled={checkOutEnabled} 
-                        checkInClass={checkInClass}
-                        checkOutClass={checkOutClass}
-                        checkStatusText1={checkStatusText1}
-                        checkStatusText2={checkStatusText2}
-                        details={data.trailDetails[0]}
-                        openStatus={openStatus}
-                        checkInHandler={checkInHandler}
-                        checkOutHandler={checkOutHandler}
-                        refetch={refetch}
-                     /> */}
                      <div className="topDetailsContainer">
                         <div className="namePropBox">
                            <div className="nmPropLn1">{data.trailDetails[0].name}</div>
@@ -252,15 +153,6 @@ const TrailDetail = (props) => {
                               )
                            }}
                         </Mutation>
-                        {/* <CheckInOut 
-                           trailID={data.trailDetails[0].id} 
-                           checkInEnabled={checkInEnabled} 
-                           checkOutEnabled={checkOutEnabled} 
-                           checkInClass={checkInClass}
-                           checkOutClass={checkOutClass}
-                           checkStatusText1={checkStatusText1}
-                           checkStatusText2={checkStatusText2}
-                        /> */}
                         <div className="topDetailsSpace"><div className="checkInOutStatus">
                            <div>{checkStatusText1}</div><div>{checkStatusText2}</div>
                         </div></div>

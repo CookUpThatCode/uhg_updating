@@ -4,8 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { ApolloProvider, Query } from 'react-apollo';
-import ApolloClient, { gql } from 'apollo-boost';
+import { ApolloClient, InMemoryCache, gql, ApolloProvider, useQuery } from '@apollo/client';
+// import { ApolloProvider, Query } from 'react-apollo';
+// import ApolloClient, { gql } from 'apollo-boost';
 // import { Provider } from 'react-redux';
 // import store from './redux/store';
 
@@ -27,17 +28,18 @@ const client = new ApolloClient({
          isLoggedIn: !!localStorage.getItem('authToken')
       }
    },
+   cache: new InMemoryCache(),
 })
 
 
 ReactDOM.render(
-   // <React.StrictMode>
    <ApolloProvider client={client}>
+   <React.StrictMode>
       {/* <Provider store={store}> */}
          <App />
       {/* </Provider> */}
+   </React.StrictMode>
    </ApolloProvider>,
-   // </React.StrictMode>,
    document.getElementById('root')
 );
 

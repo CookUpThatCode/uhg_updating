@@ -1,0 +1,258 @@
+.trailDetailPg {
+   position: relative;
+}
+
+body {
+   background: #f7f5f5;
+}
+
+.topDetailsContainer {
+   position: absolute;
+   display: flex;
+   width: 95%;
+   align-items: left;
+   top: 9.2rem;
+   left: 5vw;
+   font-weight: bold;
+   z-index: 3;
+}
+
+.namePropBox {
+   flex: 2.8;
+}
+
+.openFeeBox {
+   flex: .8;
+}
+
+.labelsBox {
+   flex: 1;
+}
+
+.checkInOutBox {
+   flex: 1;
+   margin-right: 3rem;
+   height: 4.8rem;
+   margin-top: .6rem;
+   border-radius: 5px;
+   color: white;
+   font-size: 1.8rem;
+   text-align: center;
+   padding-top: 1.3rem;
+}
+
+.chIn {
+   background: rgb(23, 59, 23);
+}
+
+.gray {
+   background: rgb(128, 128, 128);
+   color:rgb(88, 88, 88)
+}
+
+.chIn:hover {
+   background: rgb(17, 44, 17);
+   color: rgb(204, 202, 200);
+}
+
+.chOut {
+   background: rgb(99, 23, 10);
+}
+
+.chOut:hover {
+   background:rgb(71, 17, 8);
+   color: rgb(204, 202, 200);
+}
+
+.openFeeItem {
+   background: rgb(64, 119, 80);
+   border: 2px solid black;
+   border-radius: 3px;
+   margin-top: .6rem;
+   width: 7rem;
+   text-align: center;
+}
+
+.closed {
+   background: red;
+}
+
+.labelItem {
+   font-size: 1.4rem;
+   margin-top: 1.2rem;
+   padding-left: 5.2rem;
+}
+
+.topDetailsSpace {
+   flex: 5.6;
+}
+
+.smallSpace {
+   flex: 1.2;
+}
+
+.nmPropLn1 {
+   font-size: 3.6rem;
+}
+
+.nmPropLn2 {
+   font-size: 2rem;
+}
+
+.trailDetailGrid {
+   display: grid;
+   grid-template-areas:
+      'a c e'
+      'b d f';
+   grid-template-rows: 29rem 1fr;
+   grid-template-columns: 6.6fr 4.1fr 5.9fr;
+   align-items: start;
+   margin-top: 4rem;
+   margin-left: 5vw;
+   margin-right: 5vw;
+}
+
+.trailPic {
+   grid-area: a;
+   height: 29rem;
+   border: 2px solid black;
+   background-image: url('http://localhost:8000/media/uhg/images/photo-1600284536251-8bb98db53468.jpg');
+   background-size: cover;
+   margin-bottom: .6rem;
+}
+
+.trailDetails {
+   grid-area: b;
+   height: 10rem;
+   font-size: 2rem;
+}
+
+.tags {
+   grid-area: c;
+   padding-left: 5rem;
+   /* height: 10rem; */
+   /* border: 1px solid black;  */
+   font-weight: bold; 
+   font-size: 3rem;
+}
+
+.expReviews {
+   grid-area: e;
+   font-weight: bold; 
+   font-size: 3rem;
+   /* border: 1px solid black; */
+   padding-left: 5rem;
+
+}
+
+.expRev {
+   border: 2px solid black;
+   background: rgb(177, 157, 144);
+   /* background: rgb(87, 74, 66); */
+   border-radius: 5px;
+   margin-top: 1rem;
+   padding: .8rem;
+}
+
+.recEqu {
+   grid-area: d;
+   padding-left: 5rem;
+   height: 20rem;
+   /* border: 1px solid black;  */
+   font-weight: bold; 
+   font-size: 3rem;
+   margin-top: -8rem;
+}
+
+.recentHikers {
+   grid-area: d;
+   padding-left: 5rem;
+   height: 10rem;
+   /* border: 1px solid black;  */
+   font-weight: bold; 
+   font-size: 3rem;
+   margin-top: 13rem;
+}
+
+.tagLab {
+   font-size: 2rem;
+}
+
+.tag, .equ, .recHiker {
+   display: inline-block;
+   background: crimson;
+   border-radius: 5px;
+   margin-right: 1rem;
+   margin-top: 1rem;
+   font-size: 1.4rem;
+   padding: .4rem;
+}
+
+.equ {
+   background: rgb(53, 148, 25);
+}
+
+.recHiker {
+   background: rgb(62, 72, 204);
+}
+
+.detailLabel {
+   display: inline-block;
+   font-size: 1.4rem;
+   font-weight: bold;
+}
+
+.detailLine {
+   position: relative;
+   margin: .4rem 0;
+}
+
+.detailData {
+   display: inline-block;
+   position: absolute;
+   left: 10.5rem;
+}
+
+.descrText {
+   display: inline-block;
+   position: absolute;
+   left: 10.5rem;
+   width: 83%;
+   word-wrap: normal;
+}
+
+.revInfo {
+   font-size: 1.6rem;
+}
+
+.revHiker {
+   font-size: 2rem;
+   font-weight: bold;
+}
+
+.revDate {
+   font-size: 1.6rem;
+   display: inline-block;
+   font-weight: 100;
+}
+
+.revReview {
+   font-size: 1.6rem;
+   font-weight: 100;
+}
+
+.revDifEnjLab {
+   font-weight: bold;
+}
+
+.revDifEnj {
+   display: inline-block;
+   font-weight: 100;
+}
+
+.checkInOutStatus {
+   display: inline-block;
+   width: 12rem;
+   font-size: 1.4rem; 
+   padding-top: 1.8rem;
+}
